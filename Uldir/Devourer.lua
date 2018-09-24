@@ -3,7 +3,7 @@
 -- Module Declaration
 --
 
-local mod, CL = BigWigs:NewBoss("Fetid Devourer", 1861, 2146)
+local mod, CL = BigWigs:NewBoss("Devorador Fétido", 1861, 2146)
 if not mod then return end
 mod:RegisterEnableMob(133298)
 mod.engageId = 2128
@@ -33,13 +33,13 @@ end
 
 function mod:GetOptions()
 	return {
-		{262277, "TANK"}, -- Thrashing Terror
-		"breath", -- Rotting Regurgitation
-		262288, -- Shockwave Stomp
-		{262313, "ME_ONLY", "SAY", "SAY_COUNTDOWN"}, -- Malodorous Miasma
-		{262314, "ME_ONLY", "FLASH", "SAY", "SAY_COUNTDOWN"}, -- Putrid Paroxysm
-		262364, -- Enticing Essence -- XXX Used for CL.adds right now
-		262378, -- Fetid Frenzy
+		{262277, "TANK"}, -- Terror Destrozador
+		"breath", -- Regurgitación putrefacta
+		262288, -- Pisotón de onda de choque
+		{262313, "ME_ONLY", "SAY", "SAY_COUNTDOWN"}, -- Miasma maloriente
+		{262314, "ME_ONLY", "FLASH", "SAY", "SAY_COUNTDOWN"}, -- Paroxismo pútrido
+		262364, -- Esencia Tentadora -- XXX Used for CL.adds right now
+		262378, -- Frenesí fétido
 		"berserk",
 	}
 end
