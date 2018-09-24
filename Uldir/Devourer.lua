@@ -22,7 +22,7 @@ local stompCount = 1
 
 local L = mod:GetLocale()
 if L then
-	L.breath = "{262292} ({18609})" -- Rotting Regurgitation (Breath)
+	L.breath = "{262292} ({18609})" -- Regurgitación putrefacta (Aliento)
 	L.breath_desc = 262292
 	L.breath_icon = 262292
 end
@@ -33,7 +33,7 @@ end
 
 function mod:GetOptions()
 	return {
-		{262277, "TANK"}, -- Terror Destrozador
+		{262277, "TANK"}, -- Vapuleo terrible
 		"breath", -- Regurgitación putrefacta
 		262288, -- Pisotón de onda de choque
 		{262313, "ME_ONLY", "SAY", "SAY_COUNTDOWN"}, -- Miasma maloriente
@@ -48,7 +48,7 @@ function mod:OnBossEnable()
 	self:Log("SPELL_CAST_START", "TerribleThrash", 262277)
 	self:Log("SPELL_CAST_START", "RottingRegurgitation", 262292)
 	self:Log("SPELL_CAST_START", "ShockwaveStomp", 262288)
-	self:Log("SPELL_CAST_SUCCESS", "ShockwaveStompSuccess", 262288) -- sometimes doesn't finish the cast, increasing counter on _SUCCESS
+	self:Log("SPELL_CAST_SUCCESS", "ShockwaveStompSuccess", 262288) -- A veces no termina el lanzamiento, aumentando el contador en _SUCCESS
 	self:Log("SPELL_AURA_APPLIED", "MalodorousMiasmaApplied", 262313)
 	self:Log("SPELL_AURA_APPLIED_DOSE", "MalodorousMiasmaApplied", 262313)
 	self:Log("SPELL_AURA_REMOVED", "MalodorousMiasmaRemoved", 262313)
@@ -58,19 +58,19 @@ function mod:OnBossEnable()
 	self:Log("SPELL_CAST_START", "EnticingEssence", 262364)
 	self:Log("SPELL_AURA_APPLIED", "FetidFrenzy", 262378)
 
-	-- Adds spawning
+	-- Bichos invocandose
 	self:Log("SPELL_CAST_SUCCESS", "TrashChuteVisualState", 274470)
 end
 
 function mod:OnEngage()
 	trashCount = 0
 	stompCount = 1
-	self:CDBar(262277, 5.5) -- Terrible Thrash
-	self:CDBar("breath", self:Easy() and 30.5 or 41.5, 18609, 262292) -- Breath (Rotting Regurgitation)
+	self:CDBar(262277, 5.5) -- Vapuleo terrible
+	self:CDBar("breath", self:Easy() and 30.5 or 41.5, 18609, 262292) -- Aliento (Regurgitación putrefacta)
 	if not self:Easy() then
-		self:Bar(262288, 26, CL.count:format(self:SpellName(262288), stompCount)) -- Shockwave Stomp
+		self:Bar(262288, 26, CL.count:format(self:SpellName(262288), stompCount)) -- Pisotón de onda de choque
 	end
-	self:Bar(262364, self:Easy() and 50 or 35.5, self:SpellName(-18875)) -- Waste Disposal Units
+	self:Bar(262364, self:Easy() and 50 or 35.5, self:SpellName(-18875)) -- Corpúsculo de corrupción
 	self:Berserk(330)
 end
 
@@ -85,7 +85,7 @@ function mod:TerribleThrash(args)
 end
 
 function mod:RottingRegurgitation(args)
-	self:Message2("breath", "yellow", 18609, 262292) -- Breath (Rotting Regurgitation)
+	self:Message2("breath", "yellow", 18609, 262292) -- Aliento (Regurgitación putrefacta)
 	self:PlaySound("breath", "alert")
 	self:CDBar("breath", self:Easy() and 30.5 or 46, 18609, 262292) -- 41.3, 52.1, 46.3, 41.9, 32.6, 34.1 XXX
 	self:CastBar("breath", 6.5, 18609, 262292)
@@ -108,7 +108,7 @@ function mod:MalodorousMiasmaApplied(args)
 	else
 		self:StackMessage(args.spellId, args.destName, args.amount, "orange")
 	end
-	self:PlaySound(args.spellId, self:Mythic() and "warning" or "info", nil, args.destName) -- spread in Mythic
+	self:PlaySound(args.spellId, self:Mythic() and "warning" or "info", nil, args.destName) -- Esparcirse en Mítico
 	if self:Mythic() and self:Me(args.destGUID) then
 		if amount == 1 then
 			self:Say(args.spellId)
@@ -169,17 +169,17 @@ end
 
 function mod:TrashChuteVisualState()
 	trashCount = trashCount + 1
-	if (self:Mythic() and trashCount % 3 == 2) or (not self:Mythic() and trashCount % 2 == 1) then -- Small add
+	if (self:Mythic() and trashCount % 3 == 2) or (not self:Mythic() and trashCount % 2 == 1) then -- Bicho pequeño
 		self:Message2(262364, "cyan", CL.incoming:format(self:SpellName(-17867)))
 		self:PlaySound(262364, "long")
 		if not self:Mythic() then
-			self:Bar(262364, self:Mythic() and 75 or self:Easy() and 60 or 55, self:SpellName(-18875)) -- Waste Disposal Units
-			self:Bar(262364, 10, CL.spawning:format(CL.adds)) -- Adds / Enticing Essence
+			self:Bar(262364, self:Mythic() and 75 or self:Easy() and 60 or 55, self:SpellName(-18875)) -- Corpúsculo de corrupción
+			self:Bar(262364, 10, CL.spawning:format(CL.adds)) -- Bichos / Esencia Tentadora
 		end
-	elseif (self:Mythic() and trashCount % 3 == 1) then -- Big Add
+	elseif (self:Mythic() and trashCount % 3 == 1) then -- Bicho grande
 		self:Message2(262364, "cyan", CL.incoming:format(self:SpellName(-18565)))
 		self:PlaySound(262364, "long")
-		self:Bar(262364, 75, self:SpellName(-18875)) -- Waste Disposal Units
-		self:Bar(262364, 20, CL.spawning:format(CL.adds)) -- Adds
+		self:Bar(262364, 75, self:SpellName(-18875)) -- Corpúsculo de corrupción
+		self:Bar(262364, 20, CL.spawning:format(CL.adds)) -- Bichos
 	end
 end
